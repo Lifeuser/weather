@@ -13,7 +13,6 @@ var http = require('http'),
         },
         WorldWeatherOnline: {
             url: 'http://api.worldweatheronline.com/free/v2/weather.ashx/?',
-            key: '9ed2e8b6575c3745c3b21b109dde2'
         }
     }
 
@@ -32,7 +31,7 @@ function makeQueryString (apiName, city, date) {
             q: city,
             mode: 'json',
             units: 'metric',
-            cnt: date //15
+            cnt: date // diff in days + 1
         }
     }
 
@@ -111,7 +110,7 @@ http.createServer(function (req, res) {
                 this(total);
             }
         },
-        function cashe (total) {
+        function cache (total) {
             redis_client.setex(key, 3600, total, this)
         },
         function (err) {
